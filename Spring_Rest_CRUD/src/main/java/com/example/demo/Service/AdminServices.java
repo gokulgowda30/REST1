@@ -44,19 +44,48 @@ public class AdminServices {
 
 	public ResponseEntity<Admin> fetch_by_id(int id) {
 		Admin admin = repository.findById(id).orElse(null);
-        if (admin==null) {
-            return new ResponseEntity<Admin>(admin, HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<Admin>(admin,HttpStatus.FOUND);
-        }
+		if (admin == null) {
+			return new ResponseEntity<Admin>(admin, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Admin>(admin, HttpStatus.FOUND);
+		}
 	}
 
 	public ResponseEntity<List<Admin>> fetchByEmail(String email) {
 		List<Admin> admins = repository.findByEmail(email);
-        if (admins.isEmpty()) {
-            return new ResponseEntity<List<Admin>>(admins, HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<List<Admin>>(admins, HttpStatus.OK);
-        }
+		if (admins.isEmpty()) {
+			return new ResponseEntity<List<Admin>>(admins, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<Admin>>(admins, HttpStatus.OK);
+		}
 	}
+
+	public ResponseEntity<String> login(String email, String password) {
+		List<Admin> admins = repository.findByEmailAndPassword(email, password);
+		if (admins.isEmpty()) {
+			return new ResponseEntity<String>("Login Success", HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<String>("Login Success", HttpStatus.FOUND);
+		}
+
+	}
+
+	public ResponseEntity<String> deleteById(int id) {
+		Admin admin = repository.findById(id).orElse(null);
+		if (admin == null) {
+
+			return new ResponseEntity<String>("Data Not Found", HttpStatus.NOT_FOUND);
+		} else {
+
+			return new ResponseEntity<String>("Data Deleted", HttpStatus.OK);
+		}
+
+	}
+
+	public ResponseEntity<String> update(Admin admin) {
+		repository.save(admin);
+		return new ResponseEntity<String>("Single Data Updated Successfully", HttpStatus.OK
+				);
+	}
+
 }

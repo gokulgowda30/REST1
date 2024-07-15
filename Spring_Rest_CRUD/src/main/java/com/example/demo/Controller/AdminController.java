@@ -64,22 +64,28 @@ public class AdminController {
 
 	}
 
-	// 5 Fetch By Email
+	// 5. Fetch By Email
 	@GetMapping("/admins/email/{email}")
 	public ResponseEntity<List<Admin>> fetchByEmail(@PathVariable String email) {
 		return services.fetchByEmail(email);
 	}
 
-	// Delete By ID
+	//6. Delete By ID
 	@DeleteMapping("/admins/{id}")
-	public ResponseEntity<Admin> delete(@PathVariable int id) {
-		return null;
+	public ResponseEntity<String> delete(@PathVariable int id) {
+		return services.deleteById(id);
 	}
 
-	// Record Updation
-	@PutMapping
+	//7. Record Updation
+	@PutMapping("/admins")
 	public ResponseEntity<String> update(@RequestBody Admin admin) {
-		return null;
+		return services.update(admin);
+	}
+	
+	
+	@GetMapping("/admins/email/{email}/password/{password}")
+	public ResponseEntity<String> login(@PathVariable String email,@PathVariable String password){
+		return services.login(email,password);
 	}
 
 }
